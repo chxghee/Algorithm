@@ -20,7 +20,7 @@ def union_parent(parent, a, b):
     else:
         parent[a] = b
 
-# 부모 리스트는 0으로 초기화
+# 부모 리스트 초기화
 v, e = map(int, input().split())
 parent = [0] * (v+1)
 

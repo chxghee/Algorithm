@@ -20,7 +20,6 @@ def bfs(start, end):
     q.append((start, 0))
     visited[start] = True
     
-
     while q:
         now, dist = q.popleft()
         

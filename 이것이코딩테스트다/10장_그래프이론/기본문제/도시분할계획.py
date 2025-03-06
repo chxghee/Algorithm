@@ -23,7 +23,7 @@ for i in range(1, n+1):
 
 edges = []
 min_cost = 0
-cost_list = []
+
 
 for _ in range(m):
     a, b, w = map(int, input().split())
@@ -36,13 +36,9 @@ for edge in edges:
     
     if find_parent(parent, a) != find_parent(parent, b):
         union_parent(parent, a,b)
-        cost_list.append(cost)
+        min_cost += cost
+        last_cost = cost
 
 
-result = sum(cost_list) - max(cost_list)
+result = min_cost -last_cost
 print(result)
-
-
-        
-
-    

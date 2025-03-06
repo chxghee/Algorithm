@@ -51,20 +51,15 @@ def dfs(lab, x,y):
 new_walls = list(combinations(coor, 3))
 
 
-
 # 2. 이 벽에 대해 바이러스 조사
 safe = -1
 for walls in new_walls:
     
     for x, y in walls:
         data[x][y] = 1
-    
     safe = max(safe, find_safe(data))
-
     for x, y in walls:
         data[x][y] = 0
-
-
 
 print(safe)
 

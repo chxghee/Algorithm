@@ -1,24 +1,12 @@
 
 
 
-
-
-
-
-
-
-select MEMBER_ID, MEMBER_NAME, GENDER, DATE_FORMAT(DATE_OF_BIRTH, '%Y-%m-%d') AS DATE_OF_BIRTH
+select MEMBER_ID, MEMBER_NAME, GENDER, DATE_FORMAT(DATE_OF_BIRTH, "%Y-%m-%d") as DATE_OF_BIRTH
 from MEMBER_PROFILE mp
-where 
-    DATE_OF_BIRTH like '%-03-%' 
+where mp.GENDER = 'W'
     and 
-    TLNO is not NULL 
-    and 
-    GENDER = 'W'
-order by MEMBER_ID asc;
-
-
-
-
-
+    mp.DATE_OF_BIRTH like '%-03-%'
+    and
+    mp.TLNO is not NULL
+order by mp.MEMBER_ID ASC
 

@@ -34,13 +34,9 @@ def topology_sort(graph, indegree):
     for i in range(1, n+1):
         if indegree[i] == 0:
             q.append(i)
-    
-    
+        
     cycle = False
     ambi = False
-
-    if not q:
-        cycle = True
 
     for _ in range(1, n+1):
      
@@ -61,7 +57,6 @@ def topology_sort(graph, indegree):
                 if indegree[i] == 0:
                     q.append(i)
 
-    
     if cycle:
         print("IMPOSSIBLE")
     elif ambi:
@@ -71,9 +66,6 @@ def topology_sort(graph, indegree):
             print(val, end=" ")
         print()
         
-
-
-
 a = int(input())
 
 for _ in range(a):

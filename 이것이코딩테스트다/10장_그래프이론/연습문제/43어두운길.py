@@ -29,8 +29,6 @@ full_cost = 0
 for i in range(m):
     x, y, z = map(int, input().split())
     edges.append((z,x,y))
-    graph[x].append((y,z))
-    graph[y].append((x,z))
     full_cost += z
 
 

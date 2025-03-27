@@ -9,8 +9,6 @@ def validation(data):
             return False
     return True    
 
-
-
 G = int(input())
 p = int(input())
 

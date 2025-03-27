@@ -6,7 +6,7 @@ n = int(input())
 
 num = list(str(n))
 # 일단 마지막 자리가 0 이 아니면 못만듬 -> 0을 제외하고 3의 배수만 찾으면 됨
-
+# 3의 배수는 모든 자릿수 합이 3의 배수면 가능
 num.sort(reverse=True)
 
 def find_number(num):

@@ -16,4 +16,3 @@ if sum_result != s:
 
 
 print(i - 1)
-

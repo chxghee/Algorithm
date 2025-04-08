@@ -1,33 +1,31 @@
 # https://www.acmicpc.net/problem/2667
-from collections import deque
 import sys
 input = sys.stdin.readline
 
 
 
-def bfs(apt, sx, sy):
-    q = deque()
-    q.append((sx,sy))
-    data[sx][sy] = apt  # 시작 노드 방문처리
-    cnt = 1     # 같은 집합에 속한 노드 개수
+def dfs(apt, sx, sy):
     
-    while q:
-        nx, ny = q.popleft()       
+    stack = []
+    stack.append((sx,sy))
+    cnt = 0
 
-        # 인접 노드 탐색
-        for i in range(4):
-            cx = nx + dx[i]
-            cy = ny + dy[i]
+    while stack:
+        nx, ny = stack.pop()
 
-            if 0 > cx or n <= cx or 0 > cy or n <= cy:
-                continue 
+        if data[nx][ny] == 1:
+            data[nx][ny] = apt
+            cnt += 1
 
-            if data[cx][cy] == 1:
-                data[cx][cy] = apt  # 방문처리
-                q.append((cx,cy))
-                cnt += 1
-        
+            for i in range(4):
+                cx = nx + dx[i]
+                cy = ny + dy[i]
+                if 0 <= cx < n and 0 <= cy < n and data[cx][cy] == 1:
+                    stack.append((cx, cy))
+
     return cnt
+
+
 
 
 
@@ -43,7 +41,7 @@ apt = 2
 for i in range(n):
     for j in range(n):
         if data[i][j] == 1:
-            cnt = bfs(apt, i, j)
+            cnt = dfs(apt, i, j)
             result.append(cnt)
             apt += 1
 

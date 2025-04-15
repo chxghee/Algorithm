@@ -11,6 +11,8 @@ def bfs(x, y):
     q.append((x, y))
     distance = [[-1] * m for _ in range(n)]
     distance[x][y] = 0
+    max_dist = 0
+
     while q:
         nx, ny = q.popleft()
 
@@ -20,14 +22,10 @@ def bfs(x, y):
 
             if 0 <= cx < n and 0 <= cy < m and data[cx][cy] == 'L' and distance[cx][cy] == -1:
                 distance[cx][cy] = distance[nx][ny] + 1
+                max_dist =  distance[cx][cy]
                 q.append((cx,cy))
 
-    result = 0
-    for val in distance:
-        md = max(val)
-        result = max(result, md)
-
-    return result
+    return max_dist
 
 
 n, m = map(int,input().split())

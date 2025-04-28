@@ -77,5 +77,3 @@ while f:
     f = bfs()
 
 print(time)
-
-    

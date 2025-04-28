@@ -12,7 +12,7 @@ def bfs():
     q.append((shark[0], shark[1], 0))   # 상어 x,y,dist
 
     visited = [[False] * n for i in range(n)]
-    visited[shark[0]][shark[1]] = True
+    visited[shark[0]][shark[1]] = True 
 
     fish = []
     min_dist = float('inf')

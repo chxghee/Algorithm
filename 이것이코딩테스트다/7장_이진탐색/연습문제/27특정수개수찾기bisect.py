@@ -1,5 +1,5 @@
 import sys
-from bisect import bisect_left, bisect_right
+from bisect import bisect_left, bisect_right  # bisect -> 정렬된 배열에서 두번째 인자가 들어갈 수 있는 위치를 반환
 
 n,x = map(int, sys.stdin.readline().split())
 data = list(map(int, sys.stdin.readline().split()))

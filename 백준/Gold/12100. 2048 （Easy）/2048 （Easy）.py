@@ -7,14 +7,10 @@ n = int(input())
 data = [list(map(int, input().split())) for _ in range(n)]
 
 
-def find_max_num(data):
-    result = 0
-    for i in range(n):
-        tmp = max(data[i])
-        result = max(result, tmp)
-    return result
+def find_max_num(board):
+    return max(map(max, board))
 
-def move_position(data, dirc):
+def move(data, dirc):
 
     d = copy.deepcopy(data)
 
@@ -154,20 +150,15 @@ def move_position(data, dirc):
     
 
 
-def lv(data, depth):
+def dfs(data, depth):
     
     if depth == 5:
         return find_max_num(data)
 
+    return max(dfs(move(data, dir), depth+1) for dir in range(4))
 
-    results = []
-    for i in range(4):
-        new_d = move_position(data, i)
-        results.append(lv(new_d, depth+1))
 
-    return max(results)
-
-print(lv(data, 0))
+print(dfs(data, 0))
 
         
 

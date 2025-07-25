@@ -1,49 +1,57 @@
+# https://www.acmicpc.net/problem/15684
+
 import sys
 input = sys.stdin.readline
 
-def check():
-    # 사다리 타고 결과 확인
-    for start in range(1, n + 1):
-        pos = start
-        for row in range(1, h + 1):
-            if ladder[row][pos]:
-                pos += 1
-            elif ladder[row][pos - 1]:
-                pos -= 1
-        if pos != start:
-            return False
-    return True
-
-def dfs(depth, x, y):
-    global answer
-
-    # 가지치기
-    if depth >= answer or depth > 3:
-        return
-
-    # 정답 확인
-    if check():
-        answer = depth
-        return
-
-    # 사다리 추가 탐색
-    for i in range(x, h + 1):
-        k = y if i == x else 1
-        for j in range(k, n):
-            # 설치 가능 확인 (현재, 왼쪽, 오른쪽 모두 비어야 함)
-            if not ladder[i][j] and not ladder[i][j - 1] and not ladder[i][j + 1]:
-                ladder[i][j] = True
-                dfs(depth + 1, i, j + 2)  # 오른쪽 인접은 건너뜀
-                ladder[i][j] = False
-
-# 입력 처리
 n, m, h = map(int, input().split())
-ladder = [[False] * (n + 1) for _ in range(h + 1)]
-
-for _ in range(m):
+ladders = [[0] * (n + 1) for _ in range(h)] # 사다리 수평 라인 1: 오른쪽 이동 가능 -1: 왼쪽이동 가능 0: 아무것도 x
+for i in range(m):
     a, b = map(int, input().split())
-    ladder[a][b] = True
+    ladders[a - 1][b - 1] = 1
+    ladders[a - 1][b] = -1
 
-answer = 4
-dfs(0, 1, 1)
-print(answer if answer < 4 else -1)
+# 틀린 세로선 개수 리턴
+def check():
+    cnt = 0
+    for j in range(n):
+        now = j
+        for i in range(h):  # move
+            now += ladders[i][now]
+        if now != j:
+            cnt += 1
+    return cnt
+
+
+best = 4
+
+
+def dfs(depth):
+    global best
+    c = check()
+
+    if c > (best - 1 - depth) * 2:  # 틀린 세로 선 개수 > 남은 설치 가능 사다리 개수 * 2 이면 설치 x
+        return
+    
+    if c == 0:  # 0 이면 사다리 조작 완료
+        best = min(best, depth)
+        return
+    
+    if best == depth + 1:
+        return
+    
+    for i in range(h):
+        ladder = ladders[i]
+        for j in range(n - 1):
+            if ladder[j] or ladder[j + 1]:
+                continue
+            ladder[j] = 1
+            ladder[j + 1] = -1
+            dfs(depth + 1)
+            ladder[j] = 0
+            ladder[j + 1] = 0
+    
+
+dfs(0)
+if best == 4:
+    best = -1
+print(best)

@@ -1,45 +1,71 @@
+# https://www.acmicpc.net/problem/15685
+
 import sys
 input = sys.stdin.readline
 
-dx = [1, 0, -1, 0]
-dy = [0, -1, 0, 1]
+nx = [1, 0, -1, 0]
+ny = [0,-1, 0 , 1]
 
-def rotate_90_clockwise(x, y, cx, cy):
-    # 기준점 (cx, cy) 기준으로 시계방향 90도 회전
-    return cx - (y - cy), cy + (x - cx)
+def rotate(dragon, criteria_coor, start_coor):
+    
+    rotated = []
+    
+    cx, cy = criteria_coor
+    new_criteria = ()
+
+    for coor in dragon:
+        dx, dy = coor
+
+        # 기준점을 원점으로 평행이동
+        dx -= cx
+        dy -= cy
+
+        # 평행이동 후 다시 원점 이동
+        rotated_x = cx - dy
+        rotated_y = cy + dx
+
+        rotated.append((rotated_x, rotated_y))
+
+        if coor[0] == start_coor[0] and coor[1] == start_coor[1]: # 다음 기준점 구하기
+            new_criteria = (rotated_x, rotated_y)
+
+    return rotated, new_criteria
+
+
+def count_square(result):
+    cnt = 0
+    for coor in result:
+        coor1 = (coor[0] + 1, coor[1])
+        coor2 = (coor[0] + 1, coor[1] + 1)
+        coor3 = (coor[0], coor[1] + 1)
+
+        if coor1 in result and coor2 in result and coor3 in result: 
+            cnt += 1
+    return cnt
 
 n = int(input())
-visited = [[False] * 101 for _ in range(101)]
+result = set()
 
-for _ in range(n):
+for i in range(n):
     x, y, d, g = map(int, input().split())
+    
+    dragon = set()
+    start = (x, y)
+    criteria = (x + nx[d], y + ny[d])
 
-    # 0세대 커브 시작
-    curve = [(x, y)]
-    x2 = x + dx[d]
-    y2 = y + dy[d]
-    curve.append((x2, y2))
+    dragon.add(start)
+    dragon.add(criteria)
+    
+    
+    for val in range(g):
+        
+        
+        rotated_dragon, criteria = rotate(dragon, criteria, start)
+    
+        dragon.update(rotated_dragon)
+    
+    
+    result.update(dragon)
 
-    # 세대 확장
-    for _ in range(g):
-        end_x, end_y = curve[-1]
-        new_points = []
-        for i in range(len(curve) - 2, -1, -1):  # 끝에서부터 회전
-            px, py = curve[i]
-            rx, ry = rotate_90_clockwise(px, py, end_x, end_y)
-            new_points.append((rx, ry))
-        curve.extend(new_points)
+print(count_square(result))
 
-    # 전체 좌표 기록
-    for x, y in curve:
-        if 0 <= x <= 100 and 0 <= y <= 100:
-            visited[y][x] = True
-
-# 정사각형 카운트
-ans = 0
-for i in range(100):
-    for j in range(100):
-        if visited[i][j] and visited[i][j+1] and visited[i+1][j] and visited[i+1][j+1]:
-            ans += 1
-
-print(ans)

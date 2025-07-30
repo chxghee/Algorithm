@@ -2,6 +2,10 @@ import sys
 import heapq
 # O(ElogV)
 
+# 다익스트라는 특정 출발지부터 다른 모든 노드의 최단 거리를 구할 수 있다.
+# -> 그럼 어떤 목적지가 있을때 모든 노드에서 이 목적지로의 최단 거리를 구하려면?
+# -> 그래프를 뒤집은뒤 최단 거리를 구하면 상당히 효율적으로 구할 수 있다.
+
 input = sys.stdin.readline
 INF = int(1e9)
 
@@ -32,6 +36,9 @@ def dijkstra(start):
 
         # 방문하지 않은 노드 중 최단 거리인 노드 반환 -> 힙을 이용해서 O(logV)으로 시간을 단축한다.
         dist, now = heapq.heappop(q) 
+
+        if dist > distance[now]:        # 이 조건이 없으면 같은 노드를 여러번 더 긴거리로도 넣을 수 있어 힙에 간선의 수보다 훨신 많이 들어갈 수 있다.
+            continue
 
         for adj in graph[now]:
             cost = dist + adj[1]

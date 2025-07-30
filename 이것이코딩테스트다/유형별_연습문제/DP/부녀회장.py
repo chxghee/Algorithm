@@ -14,9 +14,6 @@ def calc_resident(k, n):
     
     return dp[n]
 
-
-
-
 t = int(input())
 
 for _ in range(t):

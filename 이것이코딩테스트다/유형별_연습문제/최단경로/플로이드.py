@@ -16,8 +16,11 @@ for i in range(m):
 for i in range(n+1):
     dp[i][i] = 0
 
+# 경유지
 for node in range(1, n+1):
+    # 출발지
     for start  in range(1, n+1):
+        # 목표지점
         for end  in range(1, n+1):
             if start != end:
                 dp[start][end] = min(dp[start][node] + dp[node][end], dp[start][end])

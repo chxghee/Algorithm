@@ -46,8 +46,6 @@ def working_clockwise():
     new_room[x][1] = 0
 
 
-
-
 def working_declockwise():
     x, y = air[0], 0
 
@@ -94,7 +92,6 @@ for i in range(r):
         break
 
 air = (a, a+1)
-print(air)
 
 for i in range(t):
     new_room = copy.deepcopy(room)

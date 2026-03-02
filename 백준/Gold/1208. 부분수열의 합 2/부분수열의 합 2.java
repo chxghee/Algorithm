@@ -1,10 +1,10 @@
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StreamTokenizer;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Main {
     
@@ -17,16 +17,16 @@ public class Main {
     }
 
     static int[] arr;
-    static List<Integer> s1, s2;
+    static Map<Integer, Long> s1, s2;
     static boolean[] visited, isSelected;
     static int n, s;
     static long result = 0;
 
     public static void main(String[] args) throws IOException {
         
-        s1 = new ArrayList<>();
-        s2 = new ArrayList<>();
-        
+        s1 = new HashMap<>();
+        s2 = new HashMap<>();
+
         n = nextInt();
         s = nextInt();
 
@@ -35,61 +35,36 @@ public class Main {
             arr[i] = nextInt();
         }
 
-        if (s == 0) result--;
-
         int half = n / 2;
         subset(0, 0, half, s1);
         subset(half, 0, n, s2);
 
         solve();
 
+        if (s == 0) result--;
+
         System.out.println(result);
     }
 
     static void solve() {
-        Collections.sort(s1);
-        for (Integer sum2 : s2) {
-            int target = s - sum2;
-
-            int low = lowerBiSearch(target);
-            int high = upperBiSearch(target);
-            
-            result += high - low + 1;
-        }
-    }
-
-    static int lowerBiSearch(int target) {
-        int left = 0;
-        int right = s1.size();
         
-        while (left < right) {
-            int mid = (left + right) / 2;
-            
-            if (s1.get(mid) >= target) right = mid;
-            else left = mid + 1;
-        }
+        for (int sum : s1.keySet()) {
+            int target = s - sum;
 
-        return left;
+            if (s2.containsKey(target)) {
+                result += s2.get(target) * s1.get(sum);
+            }
+        }
     }
 
-    static int upperBiSearch(int target) {
-        int left = 0;
-        int right = s1.size();
-        
-        while (left < right) {
-            int mid = (left + right) / 2;
-            
-            if (s1.get(mid) > target) right = mid;
-            else left = mid + 1;
-        }
-
-        return left - 1;
-    }
-
-    static void subset(int index, int sum, int len, List<Integer> subsetSum) {
+    static void subset(int index, int sum, int len, Map<Integer, Long> subsetSum) {
 
         if (index == len) {
-            subsetSum.add(sum);
+            if (subsetSum.containsKey(sum)) {
+                subsetSum.put(sum, subsetSum.get(sum) + 1L);
+            } else {
+                subsetSum.put(sum,1L);
+            }
             return;
         }
 
